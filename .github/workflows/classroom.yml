@@ -1,0 +1,173 @@
+name: Autograding Tests
+
+on:
+  - push
+  - repository_dispatch
+
+permissions:
+  checks: write
+  actions: read
+  contents: read
+
+jobs:
+  run-autograding-tests:
+    runs-on: ubuntu-latest
+    if: github.actor != 'github-classroom[bot]'
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Case 01 - contoh resmi
+        id: case-01
+        uses: classroom-resources/autograding-io-grader@v1
+        with:
+          test-name: Case 01 - contoh resmi
+          setup-command: gcc -std=c11 -O2 -Wall -Wextra -o soal2 soal2.c
+          command: ./soal2
+          input: "2 6 7"
+          expected-output: |-
+            LANGKAH 8
+            LANGKAH 16
+          comparison-method: exact
+          timeout: 2
+          max-score: 10
+
+      - name: Case 02 - satu bilangan satu
+        id: case-02
+        uses: classroom-resources/autograding-io-grader@v1
+        with:
+          test-name: Case 02 - satu bilangan satu
+          setup-command: gcc -std=c11 -O2 -Wall -Wextra -o soal2 soal2.c
+          command: ./soal2
+          input: "1 1"
+          expected-output: "LANGKAH 0"
+          comparison-method: exact
+          timeout: 2
+          max-score: 10
+
+      - name: Case 03 - satu bilangan dua
+        id: case-03
+        uses: classroom-resources/autograding-io-grader@v1
+        with:
+          test-name: Case 03 - satu bilangan dua
+          setup-command: gcc -std=c11 -O2 -Wall -Wextra -o soal2 soal2.c
+          command: ./soal2
+          input: "1 2"
+          expected-output: "LANGKAH 1"
+          comparison-method: exact
+          timeout: 2
+          max-score: 10
+
+      - name: Case 04 - satu bilangan tiga
+        id: case-04
+        uses: classroom-resources/autograding-io-grader@v1
+        with:
+          test-name: Case 04 - satu bilangan tiga
+          setup-command: gcc -std=c11 -O2 -Wall -Wextra -o soal2 soal2.c
+          command: ./soal2
+          input: "1 3"
+          expected-output: "LANGKAH 7"
+          comparison-method: exact
+          timeout: 2
+          max-score: 10
+
+      - name: Case 05 - satu bilangan empat
+        id: case-05
+        uses: classroom-resources/autograding-io-grader@v1
+        with:
+          test-name: Case 05 - satu bilangan empat
+          setup-command: gcc -std=c11 -O2 -Wall -Wextra -o soal2 soal2.c
+          command: ./soal2
+          input: "1 4"
+          expected-output: "LANGKAH 2"
+          comparison-method: exact
+          timeout: 2
+          max-score: 10
+
+      - name: Case 06 - satu bilangan lima
+        id: case-06
+        uses: classroom-resources/autograding-io-grader@v1
+        with:
+          test-name: Case 06 - satu bilangan lima
+          setup-command: gcc -std=c11 -O2 -Wall -Wextra -o soal2 soal2.c
+          command: ./soal2
+          input: "1 5"
+          expected-output: "LANGKAH 5"
+          comparison-method: exact
+          timeout: 2
+          max-score: 10
+
+      - name: Case 07 - satu bilangan enam
+        id: case-07
+        uses: classroom-resources/autograding-io-grader@v1
+        with:
+          test-name: Case 07 - satu bilangan enam
+          setup-command: gcc -std=c11 -O2 -Wall -Wextra -o soal2 soal2.c
+          command: ./soal2
+          input: "1 6"
+          expected-output: "LANGKAH 8"
+          comparison-method: exact
+          timeout: 2
+          max-score: 10
+
+      - name: Case 08 - dua bilangan kecil
+        id: case-08
+        uses: classroom-resources/autograding-io-grader@v1
+        with:
+          test-name: Case 08 - dua bilangan kecil
+          setup-command: gcc -std=c11 -O2 -Wall -Wextra -o soal2 soal2.c
+          command: ./soal2
+          input: "2 1 2"
+          expected-output: |-
+            LANGKAH 0
+            LANGKAH 1
+          comparison-method: exact
+          timeout: 2
+          max-score: 10
+
+      - name: Case 09 - tiga bilangan campuran
+        id: case-09
+        uses: classroom-resources/autograding-io-grader@v1
+        with:
+          test-name: Case 09 - tiga bilangan campuran
+          setup-command: gcc -std=c11 -O2 -Wall -Wextra -o soal2 soal2.c
+          command: ./soal2
+          input: "3 8 9 10"
+          expected-output: |-
+            LANGKAH 3
+            LANGKAH 19
+            LANGKAH 6
+          comparison-method: exact
+          timeout: 2
+          max-score: 10
+
+      - name: Case 10 - dua bilangan lebih besar
+        id: case-10
+        uses: classroom-resources/autograding-io-grader@v1
+        with:
+          test-name: Case 10 - dua bilangan lebih besar
+          setup-command: gcc -std=c11 -O2 -Wall -Wextra -o soal2 soal2.c
+          command: ./soal2
+          input: "2 11 12"
+          expected-output: |-
+            LANGKAH 14
+            LANGKAH 9
+          comparison-method: exact
+          timeout: 2
+          max-score: 10
+
+      - name: Autograding Reporter
+        uses: classroom-resources/autograding-grading-reporter@v1
+        env:
+          CASE-01_RESULTS: "${{steps.case-01.outputs.result}}"
+          CASE-02_RESULTS: "${{steps.case-02.outputs.result}}"
+          CASE-03_RESULTS: "${{steps.case-03.outputs.result}}"
+          CASE-04_RESULTS: "${{steps.case-04.outputs.result}}"
+          CASE-05_RESULTS: "${{steps.case-05.outputs.result}}"
+          CASE-06_RESULTS: "${{steps.case-06.outputs.result}}"
+          CASE-07_RESULTS: "${{steps.case-07.outputs.result}}"
+          CASE-08_RESULTS: "${{steps.case-08.outputs.result}}"
+          CASE-09_RESULTS: "${{steps.case-09.outputs.result}}"
+          CASE-10_RESULTS: "${{steps.case-10.outputs.result}}"
+        with:
+          runners: case-01,case-02,case-03,case-04,case-05,case-06,case-07,case-08,case-09,case-10
